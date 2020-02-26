@@ -71,3 +71,7 @@ void Shader::setUniform1f(const char* uniform_name, float f){
     this->use();
     glUniform1f(glGetUniformLocation(programID,uniform_name), f);
 }
+void Shader::setUniformMat4(const char* uniform_name, mat4& mat){
+    this->use();
+    glUniformMatrix4fv(glGetUniformLocation(programID,uniform_name), 16*sizeof(GLfloat), false, mat.)
+}

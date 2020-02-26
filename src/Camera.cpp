@@ -22,3 +22,19 @@ void Camera::windowResizeCallback(GLint width, GLint height){
 void Camera::scrollCallback(GLdouble xoffset, GLdouble yoffset){
 
 }
+
+inline mat4 ProjectionMat(double fovy, double aspect, double nearClip, double farClip) {
+	mat4 ret = mat4::zeros();
+	double tanHalf = tan(fovy / 2.0);
+
+	ret[0][1] = 1.0 / (aspect*tanHalf); // n/t
+
+	ret[1][2] = 1.0 / tanHalf; // n/r
+
+	ret[2][0] = -(farClip + nearClip) / (farClip - nearClip);
+	ret[2][3] = -(2 * farClip*nearClip) / (farClip - nearClip);
+
+	ret[3][0] = -1.0;
+	
+	return ret;
+}
