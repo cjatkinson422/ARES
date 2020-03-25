@@ -1,14 +1,13 @@
-#version 460 core
+#version 430 core
 uniform float x;
 uniform float y;
-uniform float scale;
-uniform float ci;
-uniform float cr;
 in vec3 fPos;
 out vec3 FragColor;
 
 const float gold = 1.61803398875;
-
+const float ci = gold-1.0f;
+const float cr = gold-2.0f;
+const float scale = 1.0;
 
 const vec3 colors[8] = {
     vec3(011.0f, 112.0f, 104.0f)/256.0f,
@@ -50,9 +49,8 @@ void func(inout float zr, inout float zi){
 
 void main()
 {
-    
-    float zr = fPos.x/scale + x;
-    float zi = fPos.y/scale + y;
+    float zr = fPos.x/scale;
+    float zi = fPos.y/scale;
     int i = 0;
     int max = 1000;
     for(; i < max; i++){

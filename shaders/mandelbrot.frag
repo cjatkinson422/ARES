@@ -1,4 +1,4 @@
-#version 460 core
+#version 430 core
 uniform float x;
 uniform float y;
 uniform float scale;

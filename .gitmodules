@@ -1,0 +1,6 @@
+[submodule "third_party/glfw"]
+	path = third_party/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "includes/GNClib"]
+	path = includes/GNClib
+	url = https://github.com/cjatkinson422/GNClib.git
