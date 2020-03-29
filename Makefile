@@ -35,8 +35,9 @@ $(EXE): $(OBJ)
 all: $(EXE)
 
 install:
-	git clone https://github.com/glfw/glfw.git third_party/glfw/
-	mkdir third_party/glfw/build/
+	git submodule init
+	git submodule update
+	mkdir libs/
 	cmake -S third_party/glfw/ -B third_party/glfw/build/ -G "Unix Makefiles"
 	make -C third_party/glfw/build/
 	cp third_party/glfw/build/src/libglfw3.a libs/libglfw3.a
