@@ -73,6 +73,6 @@ void Shader::setUniform1f(const char* uniform_name, float f){
 }
 void Shader::setUniformMat4(const char* uniform_name, mat4& mat){
     this->use();
-    auto float_ptr = mat.gl_float_ref();
-    glUniformMatrix4fv(glGetUniformLocation(programID,uniform_name), 16*sizeof(GLfloat), false, &float_ptr[0]);
+    std::array<float, 16UL> float_ptr = mat.gl_float_ref();
+    glUniformMatrix4fv(glGetUniformLocation(programID,uniform_name), 1, true, &float_ptr[0]);
 }

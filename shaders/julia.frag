@@ -1,7 +1,6 @@
 #version 430 core
-uniform float x;
-uniform float y;
 in vec3 fPos;
+in vec3 aCol;
 out vec3 FragColor;
 
 const float gold = 1.61803398875;
@@ -38,7 +37,6 @@ vec3 interpColor(float fac){
             return colors[i]+(fac-float(i))*(colors[i+1]-colors[i]);
         }
     }
-    
 }
 
 void func(inout float zr, inout float zi){
@@ -63,5 +61,5 @@ void main()
     //float fac = (float(i)*interpMax/float(max));
     //float fac = (fPos.y+1.0)*interpMax/2.0;
     float fac = mod(float(i)/6.14159265,interpMax*4.0)/4.0;
-    FragColor = interpColor(fac)*1.5*pow(float(i+100)/float(max),0.2);
+    FragColor = vec3(0.5,0.5,0.6);//interpColor(fac)*1.5*pow(float(i+100)/float(max),0.2);
 }

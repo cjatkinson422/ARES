@@ -1,30 +1,46 @@
 #include "Window.hh"
 #include "Camera.hh"
 #include "InputHandler.hh"
-
+#include "Config.hh"
+#include "Logger.hh"
 
 GLFWwindow* Window::glfw_window;
 Window* Window::instance;
 
+GLint Window::width = 0;
+GLint Window::height = 0;
+
 Window::Window(){
-    /* Singleton class constructor of the Window class
-     * Designed to wrap the GLFW window class and callbacks 
-    */
-    glfw_window = glfwCreateWindow(1800, 1400, "ARES", NULL, NULL);
+    // Get an instance of the config reader
+    Config* configs = Config::getInstance();
+
+    Logger::println("Initializing Window");
+
+    // read values from configs
+    configs->getValue("window_width", Window::width);
+    configs->getValue("window_height", Window::height);
+
+    // Create the glfw window object
+    glfw_window = glfwCreateWindow(width, height, "ARES", NULL, NULL);
+
+    // Verify that the window opened properly
     if (glfw_window == NULL)
     {
-        std::cerr << "Failed to create GLFW window" << std::endl;
+        Logger::print("Failed to create GLFW window of size");
         glfwTerminate();
         exit(-1);
     }
+
+    // Set this glfw window object as the primary one
     glfwMakeContextCurrent(glfw_window);
-    InputHandler* input_handler = InputHandler::getInstance();
-    input_handler->setWindow(glfw_window);
+    
+    // Tell the input handler to use input from this glfw window.
+    InputHandler::getInstance()->setWindow(glfw_window);
+    glfwSetFramebufferSizeCallback(Window::getGLFWwindow(), Window::GLFWFramebufferResizeCallback);
+
 }
 
 Window* Window::getInstance(){
-    /* Returns the singleton instance of the Window class
-    */
     if(!instance)
        instance = new Window();
     return instance;
@@ -38,3 +54,17 @@ bool Window::shouldClose(){
     return glfwWindowShouldClose(glfw_window);
 }
 
+
+void Window::GLFWFramebufferResizeCallback(GLFWwindow* window, GLint width, GLint height){
+    Window::width = width;
+    Window::height = height;
+    glViewport(0.0,0.0,width,height);
+    if(Window::instance->RESIZE_callback) Window::instance->RESIZE_callback(width,height);
+}
+
+GLint Window::getWidth(){
+    return Window::width;
+}
+GLint Window::getHeight(){
+    return Window::height;
+}

@@ -7,21 +7,28 @@
 #define SHIP_MODE 1
 
 
-typedef std::function<void()> INPUT_KEY_CALLBACK;
+typedef std::function<void(GLdouble)> INPUT_KEY_CALLBACK;
 typedef std::function<void(GLdouble, GLdouble)> INPUT_SCROLL_CALLBACK;
-typedef std::function<void(GLint, GLint)> INPUT_RESIZE_CALLBACK;
+typedef std::function<void(GLdouble, GLdouble)> INPUT_CURSOR_CALLBACK;
+typedef std::function<void(GLdouble, GLdouble, GLdouble)> INPUT_CURSOR_TICK_CALLBACK;
 
 class InputHandler{
 public:
     static InputHandler* getInstance();
 
     void setWindow(GLFWwindow *window);
-    void processInput();
+    void processInput(double delta_time);
+
 
     void set_SCROLL_callback(INPUT_SCROLL_CALLBACK callback){this->SCROLL_callback = callback;}
-    void set_RESIZE_callback(INPUT_RESIZE_CALLBACK callback){this->RESIZE_callback = callback;}
+    void set_CURSOR_callback(INPUT_CURSOR_CALLBACK callback){this->CURSOR_callback = callback;}
+
+    void set_CURSOR_TICK_callback (INPUT_CURSOR_TICK_CALLBACK callback){this->CURSOR_TICK_callback = callback;}
     
     void set_ESC_callback(INPUT_KEY_CALLBACK callback){this->ESC_callback = callback;}
+    void set_SPACE_callback(INPUT_KEY_CALLBACK callback){this->SPACE_callback = callback;}
+    void set_LSHIFT_callback(INPUT_KEY_CALLBACK callback){this->LSHIFT_callback = callback;}
+
     void set_A_callback(INPUT_KEY_CALLBACK callback){this->A_callback = callback;}
     void set_B_callback(INPUT_KEY_CALLBACK callback){this->B_callback = callback;}
     void set_C_callback(INPUT_KEY_CALLBACK callback){this->C_callback = callback;}
@@ -49,6 +56,10 @@ public:
     void set_Y_callback(INPUT_KEY_CALLBACK callback){this->Y_callback = callback;}
     void set_Z_callback(INPUT_KEY_CALLBACK callback){this->Z_callback = callback;}
 
+    const GLdouble& getCursorX();
+    const GLdouble& getCursorY();
+    void setCursorPos(GLdouble, GLdouble);
+
 private:
     static InputHandler* instance;
 
@@ -57,14 +68,23 @@ private:
     InputHandler& operator=(InputHandler const&);
 
     GLFWwindow* window;
+    
+    static GLdouble cursor_x;
+    static GLdouble cursor_y;
 
     static void GLFWScrollCallback(GLFWwindow* window, GLdouble xoffset, GLdouble yoffset);
-    static void GLFWFramebufferResizeCallback(GLFWwindow* windw, GLint width, GLint height);
+    static void GLFWCursorCallback(GLFWwindow* window, GLdouble xoffset, GLdouble yoffset);
 
-    INPUT_RESIZE_CALLBACK RESIZE_callback;
+
     INPUT_SCROLL_CALLBACK SCROLL_callback;
+    INPUT_CURSOR_CALLBACK CURSOR_callback;
+
+    INPUT_CURSOR_TICK_CALLBACK CURSOR_TICK_callback;
     
     INPUT_KEY_CALLBACK ESC_callback;
+    INPUT_KEY_CALLBACK LSHIFT_callback;
+    INPUT_KEY_CALLBACK SPACE_callback;
+    
     INPUT_KEY_CALLBACK A_callback;
     INPUT_KEY_CALLBACK B_callback;
     INPUT_KEY_CALLBACK C_callback;

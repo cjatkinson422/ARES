@@ -1,7 +1,9 @@
 #include "GLContext.hh"
-
+#include "Logger.hh"
 
 GLContext::GLContext(){
+    Logger::println("Initializing GLFW context");
+
     glfwInit();
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
@@ -9,7 +11,7 @@ GLContext::GLContext(){
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        std::cout << "Failed to initialize GLAD" << std::endl;
+        Logger::println("Failed to initialize GLAD. Exiting.");
         glfwTerminate();
         exit(-1);
     }

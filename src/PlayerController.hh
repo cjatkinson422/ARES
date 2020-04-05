@@ -7,7 +7,9 @@ class PlayerController{
 protected:
     friend class Player;
 public:
-    PlayerController();
+    PlayerController(Player* player);
+
+    void use();
 
 private:
     Player* player;
@@ -17,4 +19,10 @@ private:
     void eva_control_thrust_backward    (double delta_time);
     void eva_control_thrust_left        (double delta_time);
     void eva_control_thrust_right       (double delta_time);
+    void eva_control_thrust_up          (double delta_time);
+    void eva_control_thrust_down        (double delta_time);
+
+    void eva_slew(double delta_time, double x_strength, double y_strength);
+
+    //void eva_slew      (GLdouble xoffset, GLdouble yoffset);
 };

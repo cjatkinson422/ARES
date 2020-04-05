@@ -3,21 +3,37 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <GNClib/linalg.hh>
+#include <GNClib/quaternion.hh>
 
 class Camera{
 private:
     Camera();
-    static Camera* instance;
 
     quaternion rotation;
     vec3 position;
+    mat4 view_projection_matrix;
+    mat4 view_matrix;
+    mat4 projection_matrix;
 
-    static mat4 ProjectionMat(double fovy, double aspect, double nearClip, double farClip);
+    double fovy;
+    double aspect;
+    double near_clip;
+    double far_clip;
+    GLint height;
+    GLint width;
+
+
 
 
 public:
-    static Camera* getInstance();
     void windowResizeCallback(GLint width, GLint height);
     void scrollCallback(GLdouble xoffset, GLdouble yoffset);
+    mat4& getViewProjectionMatrix();
+    void updateProjectionMatrix();
+    void updateViewMatrix();
+    void use();
+
+protected:
+    friend class Player;
 };
 

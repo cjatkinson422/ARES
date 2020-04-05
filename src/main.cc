@@ -8,13 +8,24 @@
 #include <algorithm>
 
 float vertices[] = {
-    -1.0f, -1.0f, 0.0f,
-     1.0f, -1.0f, 0.0f,
-     1.0f,  1.0f, 0.0f,
+    -1.0f, -1.0f, 1.0f,
+     1.0f, -1.0f, 1.0f,
+     1.0f,  1.0f, 1.0f,
 
-    -1.0f, -1.0f, 0.0f,
-     1.0f,  1.0f, 0.0f,
-    -1.0f,  1.0f, 0.0f
+    -1.0f, -1.0f, 1.0f,
+     1.0f,  1.0f, 1.0f,
+    -1.0f,  1.0f, 1.0f,
+
+
+    -1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+     1.0f,  1.0f, -1.0f,
+
+    -1.0f, -1.0f, -1.0f,
+     1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f, -1.0f
+
+
 }; 
 
 
@@ -22,56 +33,48 @@ float vertices[] = {
 
 
 int main()
-{
+{   
     GLContext* context = GLContext::getInstance();
     Window* window = Window::getInstance();
-    Camera* cam = Camera::getInstance();
     InputHandler* input_handler = InputHandler::getInstance();
-    PlayerController player_controller = PlayerController();
+    Player player = Player();
     context->loadShader("julia");
     context->getShader("julia")->use();
 
+    Mesh sphere = Mesh("data/models/falcon.obj");
 
-    unsigned int VBO;
-    glGenBuffers(1, &VBO); 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);  
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    unsigned int VAO;
-    glGenVertexArrays(1, &VAO); 
 
-    
-    
-    // 1. bind Vertex Array Object
-    glBindVertexArray(VAO);
-    // 2. copy our vertices array in a buffer for OpenGL to use
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);  
-
-    // 0. copy our vertices array in a buffer for OpenGL to use
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    
+    double loop_time = glfwGetTime();
+    double old_time = glfwGetTime();
     while(!window->shouldClose())
     {
-        // input
-        input_handler->processInput();
+        // Get the time since the last frame
+        double delta_time = loop_time - old_time;
+        old_time = glfwGetTime();
+
+        // Process the mouse and keyboard input
+        input_handler->processInput(delta_time);
+        // Tick the player forward in time
+        player.tick(delta_time);
+        
 
         // rendering commands here
         
-        glClearColor(248.0f/256.0f, 201.0f/256.0f, 95.0f/256.0f,1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
 
+        glEnable(GL_DEPTH_TEST);  
+
+        sphere.draw();
         // check and call events and swap the buffers
         glfwPollEvents();
         glfwSwapBuffers(window->getGLFWwindow());  
+
+        // Update the time
+        loop_time = glfwGetTime();
     }
 
     glfwTerminate();

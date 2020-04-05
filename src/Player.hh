@@ -1,24 +1,29 @@
 #pragma once
 #include "GNClib/linalg.hh"
+#include "GNClib/quaternion.hh"
 #include "Mesh.hh"
 #include "PlayerController.hh"
+#include "Camera.hh"
+#include "PhysicsObject.hh"
 
 class Player{
 public:
     Player();
+
+    void tick(double delta_time);
+    void draw();
 private:
     vec3 position;
-    vec3 velocity;
-    quaternion attitude;
+    quaternion rotation;
+
     quaternion look_direction;
-    Mesh shader_mesh;
-    Mesh collision_mesh;
+    
+    PhysicsObject physics_object;
     PlayerController player_controller;
+    Camera camera;
 
-
-
-    double get_mass();
     double get_eva_thrust();
+    double get_eva_torque();
 
 protected:
     friend class PlayerController;
