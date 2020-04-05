@@ -5,6 +5,7 @@
 #include "PlayerController.hh"
 #include "Camera.hh"
 #include "PhysicsObject.hh"
+#include "HUD.hh"
 
 class Player{
 public:
@@ -20,6 +21,8 @@ private:
     
     PhysicsObject physics_object;
     PlayerController player_controller;
+
+    HUD hud;
     Camera camera;
 
     double get_eva_thrust();

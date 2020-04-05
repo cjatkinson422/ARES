@@ -32,5 +32,5 @@ GLint GLContext::loadShader(string filename){
     return shaders[filename]->getID();
 }
 Shader* GLContext::getShader(string name){
-    return shaders[name];
+    return shaders.at(name);
 }

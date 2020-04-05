@@ -3,8 +3,11 @@
 #include <streambuf>
 #include <sstream>
 #include <iostream>
+#include "Logger.hh"
 
 Shader::Shader(string filename){
+
+    Logger::println("Loading shader " + filename);
     std::ifstream tv("shaders/"+filename+".vert");
     std::stringstream vertbuffer;
     vertbuffer << tv.rdbuf();

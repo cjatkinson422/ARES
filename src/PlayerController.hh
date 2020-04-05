@@ -11,6 +11,8 @@ public:
 
     void use();
 
+    void eva_rotational_damp(double delta_time);
+    void eva_translational_damp(double delta_time);
 private:
     Player* player;
 
@@ -24,5 +26,4 @@ private:
 
     void eva_slew(double delta_time, double x_strength, double y_strength);
 
-    //void eva_slew      (GLdouble xoffset, GLdouble yoffset);
 };

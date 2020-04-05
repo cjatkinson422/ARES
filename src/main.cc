@@ -7,26 +7,6 @@
 #include <functional>
 #include <algorithm>
 
-float vertices[] = {
-    -1.0f, -1.0f, 1.0f,
-     1.0f, -1.0f, 1.0f,
-     1.0f,  1.0f, 1.0f,
-
-    -1.0f, -1.0f, 1.0f,
-     1.0f,  1.0f, 1.0f,
-    -1.0f,  1.0f, 1.0f,
-
-
-    -1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f,  1.0f, -1.0f,
-
-    -1.0f, -1.0f, -1.0f,
-     1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f
-
-
-}; 
 
 
 
@@ -34,16 +14,16 @@ float vertices[] = {
 
 int main()
 {   
+
     GLContext* context = GLContext::getInstance();
     Window* window = Window::getInstance();
+
     InputHandler* input_handler = InputHandler::getInstance();
     Player player = Player();
     context->loadShader("julia");
     context->getShader("julia")->use();
 
     Mesh sphere = Mesh("data/models/falcon.obj");
-
-
 
 
     double loop_time = glfwGetTime();
@@ -69,6 +49,7 @@ int main()
         glEnable(GL_DEPTH_TEST);  
 
         sphere.draw();
+        player.draw();
         // check and call events and swap the buffers
         glfwPollEvents();
         glfwSwapBuffers(window->getGLFWwindow());  

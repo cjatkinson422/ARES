@@ -4,6 +4,7 @@
 #include "Config.hh"
 #include "Window.hh"
 #include "Config.hh"
+#include "GLContext.hh"
 
 Camera::Camera(){
 	Config::getInstance()->getValue("fovy", this->fovy);
@@ -14,6 +15,7 @@ Camera::Camera(){
 	this->height = Window::getHeight();
 
 	this->aspect = (double)width / (double)height;
+	GLContext::getInstance()->getShader("hud")->setUniform1f("aspect", float(aspect));
 	this->updateProjectionMatrix();
 	this->updateViewMatrix();
 
@@ -24,6 +26,7 @@ void Camera::windowResizeCallback(GLint height, GLint width){
 	this->height = height;
 
 	this->aspect = width/height;
+	GLContext::getInstance()->getShader("hud")->setUniform1f("aspect", float(aspect));
 	this->updateProjectionMatrix();
 }
 void Camera::scrollCallback(GLdouble xoffset, GLdouble yoffset){

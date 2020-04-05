@@ -5,7 +5,7 @@
 
 
 
-Player::Player():player_controller(PlayerController(this)),camera(Camera()), physics_object(PhysicsObject(position, rotation)){
+Player::Player():player_controller(PlayerController(this)), physics_object(PhysicsObject(position, rotation)){
     this->position = {5.0,0.0,0.0};
     this->rotation = {1.0,0.0,0.0,0.0};
     this->camera.position = this->position;
@@ -26,12 +26,12 @@ void Player::tick(double delta_time){
 }
 
 void Player::draw(){
-
+    hud.draw();
 }
 
 double Player::get_eva_thrust(){
     return 10.0;
 }
 double Player::get_eva_torque(){
-    return 10.0;
+    return 20.0;
 }
