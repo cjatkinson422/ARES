@@ -92,7 +92,7 @@ inline bool loadObj(string name, std::vector<std::array<float,8>>& vertex_out, s
 
 			string vertex1, vertex2, vertex3;
 			unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
-			int matches = sscanf(lineHeader, "f %u/%u/%u %u/%u/%u %u/%u/%u \n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
+			int matches = sscanf(lineHeader, "f %u/%u/%u %u/%u/%u %u/%u/%u \n", &vertexIndex[0], &normalIndex[0], &uvIndex[0], &vertexIndex[1], &normalIndex[1], &uvIndex[1], &vertexIndex[2], &normalIndex[2], &uvIndex[2]);
 			if (matches != 9) {
 				Logger::println("ERROR::LOADOBJ - File not properly formatted. Are you sure it is triangulated? Loader does not support quads.");
 				Logger::println(lineHeader);

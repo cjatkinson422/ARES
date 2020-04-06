@@ -6,7 +6,7 @@
 
 
 Player::Player():player_controller(PlayerController(this)), physics_object(PhysicsObject(position, rotation)){
-    this->position = {5.0,0.0,0.0};
+    this->position = {5.0,0.0,1.0};
     this->rotation = {1.0,0.0,0.0,0.0};
     this->camera.position = this->position;
     this->camera.rotation = this->rotation;
@@ -22,7 +22,8 @@ void Player::tick(double delta_time){
     this->camera.rotation = this->rotation;
     this->camera.updateViewMatrix();
 
-    GLContext::getInstance()->getShader("julia")->setUniformMat4("projection",this->camera.getViewProjectionMatrix());
+    GLContext::getInstance()->getShader("static_textured")->setUniformMat4("projection",this->camera.getViewProjectionMatrix());
+    GLContext::getInstance()->getShader("star")->setUniformMat4("projection",this->camera.getViewProjectionMatrix());
 }
 
 void Player::draw(){

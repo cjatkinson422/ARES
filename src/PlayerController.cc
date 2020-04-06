@@ -121,7 +121,7 @@ void PlayerController::eva_slew(double delta_time, double cursor_x, double curso
     GLContext::getInstance()->getShader("hud")->setUniform1f("y", cursor_y / max_slew_radius);
 
     // Set the screen position of the cursor to the bounded value (making sure to flip the y value back)
-    input_handler->setCursorPos(cursor_x * (0.97 - delta_time), -cursor_y * (0.97 - delta_time));
+    input_handler->setCursorPos(cursor_x * (0.95 - delta_time), -cursor_y * (0.95 - delta_time));
 
     // If the player is not actively slewing, and damping is enabled, then damp the players
     // rotation with the thrusters instead. The eva_rotational_damp function uses maximum available torque

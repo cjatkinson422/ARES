@@ -2,7 +2,6 @@
 #include <GNClib/linalg.hh>
 #include <GNClib/quaternion.hh>
 
-#include "Mesh.hh"
 #include "PlayerController.hh"
 #include "Camera.hh"
 

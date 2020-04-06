@@ -60,6 +60,6 @@ void main()
 
     //float fac = (float(i)*interpMax/float(max));
     //float fac = (fPos.y+1.0)*interpMax/2.0;
-    float fac = mod(float(i)/6.14159265,interpMax*4.0)/4.0;
-    FragColor = vec3(0.5,0.5,0.6);//interpColor(fac)*1.5*pow(float(i+100)/float(max),0.2);
+    //float fac = mod(float(i)/6.14159265,interpMax*4.0)/4.0;
+    FragColor = vec3(sin(fPos.x),sin(fPos.y),sin(fPos.z));//interpColor(fac)*1.5*pow(float(i+100)/float(max),0.2);
 }

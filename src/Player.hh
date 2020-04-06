@@ -1,13 +1,13 @@
 #pragma once
 #include "GNClib/linalg.hh"
 #include "GNClib/quaternion.hh"
-#include "Mesh.hh"
 #include "PlayerController.hh"
 #include "Camera.hh"
 #include "PhysicsObject.hh"
 #include "HUD.hh"
+#include "SceneObject.hh"
 
-class Player{
+class Player : public SceneObject{
 public:
     Player();
 

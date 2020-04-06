@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
+#include "SceneObject.hh"
 
-class HUD{
+class HUD : public SceneObject{
 public:
     HUD();
 

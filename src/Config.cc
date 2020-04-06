@@ -13,8 +13,7 @@ Config::Config(){
 }
 
 Config* Config::getInstance(){
-    /* Returns the singleton instance of the Config class
-    */
+    // Returns the singleton instance of the Config class
     if(!instance)
        instance = new Config();
     return instance;
@@ -27,7 +26,7 @@ void Config::getValue(const char* name, double& val){
     Logger::println(" from configs.");
 
     if(std::strcmp(name, "fovy")==0)
-        val = deg2rad(80.0);
+        val = deg2rad(70.0);
     else if(std::strcmp(name, "near_clip")==0)
         val = 0.01;
     else if(std::strcmp(name, "far_clip")==0)

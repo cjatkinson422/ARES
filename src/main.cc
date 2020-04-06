@@ -1,6 +1,7 @@
 #include <iostream>
 #include "GLContext.hh"
 #include "InputHandler.hh"
+#include "TextureHandler.hh"
 #include "Player.hh"
 #include "Camera.hh"
 #include "Window.hh"
@@ -8,8 +9,9 @@
 #include <algorithm>
 
 
-
-
+#include "LandingPad.hh"
+#include "Scene.hh"
+#include "Star.hh"
 
 
 int main()
@@ -17,13 +19,27 @@ int main()
 
     GLContext* context = GLContext::getInstance();
     Window* window = Window::getInstance();
+    TextureHandler* texture_handler = TextureHandler::getInstance();
+    context->loadShader("static_textured");
+    context->loadShader("star");
+    context->loadShader("hud");
 
     InputHandler* input_handler = InputHandler::getInstance();
     Player player = Player();
-    context->loadShader("julia");
-    context->getShader("julia")->use();
 
-    Mesh sphere = Mesh("data/models/falcon.obj");
+    MeshRenderer falcon = MeshRenderer("data/models/falcon.obj", context->getShader("star"));
+    falcon.set_render_mode(GL_LINE);
+
+    Star sol = Star();
+
+    Scene scene = Scene();
+    LandingPad landing_pad = LandingPad();
+
+    scene.add_scene_object(&landing_pad);
+    scene.add_scene_object(&falcon);
+    scene.add_scene_object(&player);
+    scene.add_scene_object(&sol);
+
 
 
     double loop_time = glfwGetTime();
@@ -48,8 +64,8 @@ int main()
 
         glEnable(GL_DEPTH_TEST);  
 
-        sphere.draw();
-        player.draw();
+        scene.render();
+
         // check and call events and swap the buffers
         glfwPollEvents();
         glfwSwapBuffers(window->getGLFWwindow());  

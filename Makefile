@@ -20,7 +20,7 @@ IMGUI_OBJS := $(wildcard ./objs/imgui/*.o)
 
 LDFLAGS = $()
 LDLIBS = -ldl -lXrandr -lXext -lX11 -lpthread -lm -lGL
-CPPFLAGS = -g --std=c++2a -I$(IDIR) 
+CPPFLAGS = -g --std=c++2a -I$(IDIR) -I./
 CFLAGS = -g -I$(IDIR) 
 
 default: executable

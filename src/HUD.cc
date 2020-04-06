@@ -42,7 +42,6 @@ HUD::HUD(){
 
     number_of_vertices = sizeof(indices);
 
-    GLContext::getInstance()->loadShader("hud");
     GLContext::getInstance()->getShader("hud")->setUniform1f("x", 0.0);
     GLContext::getInstance()->getShader("hud")->setUniform1f("y", 0.0);
 
