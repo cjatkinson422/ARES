@@ -8,15 +8,13 @@
 #include <functional>
 #include <algorithm>
 
-
 #include "LandingPad.hh"
 #include "Scene.hh"
 #include "Star.hh"
 
 
 int main()
-{   
-
+{
     GLContext* context = GLContext::getInstance();
     Window* window = Window::getInstance();
     TextureHandler* texture_handler = TextureHandler::getInstance();
@@ -27,8 +25,8 @@ int main()
     InputHandler* input_handler = InputHandler::getInstance();
     Player player = Player();
 
-    MeshRenderer falcon = MeshRenderer("data/models/falcon.obj", context->getShader("star"));
-    falcon.set_render_mode(GL_LINE);
+    MeshRenderer ship = MeshRenderer("data/models/ship.obj", context->getShader("star"));
+    ship.set_render_mode(GL_LINE);
 
     Star sol = Star();
 
@@ -36,7 +34,7 @@ int main()
     LandingPad landing_pad = LandingPad();
 
     scene.add_scene_object(&landing_pad);
-    scene.add_scene_object(&falcon);
+    scene.add_scene_object(&ship);
     scene.add_scene_object(&player);
     scene.add_scene_object(&sol);
 
@@ -64,7 +62,7 @@ int main()
 
         glEnable(GL_DEPTH_TEST);  
 
-        scene.render();
+        scene.render(&player.get_camera());
 
         // check and call events and swap the buffers
         glfwPollEvents();

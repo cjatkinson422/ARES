@@ -1,5 +1,5 @@
 third_party/glfw-3.3.2/*
-objs/*.o
+objs/*
 libs/*.a
 .vscode/
 mainApp

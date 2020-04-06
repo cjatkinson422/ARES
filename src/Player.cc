@@ -34,5 +34,9 @@ double Player::get_eva_thrust(){
     return 10.0;
 }
 double Player::get_eva_torque(){
-    return 20.0;
+    return 50.0;
+}
+
+Camera& Player::get_camera(){
+    return camera;
 }

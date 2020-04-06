@@ -1,7 +1,7 @@
 #include "Scene.hh"
 
 
-void Scene::render(){
+void Scene::render(Camera* camera){
     for(auto const& object : objects_in_scene){
         object->draw();
     }

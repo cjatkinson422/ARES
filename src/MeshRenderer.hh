@@ -11,7 +11,7 @@ public:
     MeshRenderer(std::string filename);
     MeshRenderer();
 
-    void draw();
+    void draw(Shader* shader, );
     void set_render_mode(GLenum mode);
 private:
     unsigned int VBO;

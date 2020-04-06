@@ -13,6 +13,7 @@ public:
 
     void tick(double delta_time);
     void draw();
+    Camera& get_camera();
 private:
     vec3 position;
     quaternion rotation;

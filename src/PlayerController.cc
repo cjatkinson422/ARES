@@ -2,6 +2,8 @@
 #include "PlayerController.hh"
 #include "GLContext.hh"
 #include "Player.hh"
+#include "Window.hh"
+
 
 PlayerController::PlayerController(Player* player){
     this->player = player;
@@ -15,6 +17,10 @@ void PlayerController::use(){
 
     input_handler->set_A_callback([this](double delta_time){this->eva_control_thrust_left(delta_time);});
     input_handler->set_D_callback([this](double delta_time){this->eva_control_thrust_right(delta_time);});
+
+    // Assign the E and Q keys to empty lambdas since the EVA slew function handles these inputs
+    input_handler->set_E_callback([](double delta_time){});
+    input_handler->set_Q_callback([](double delta_time){});
 
     input_handler->set_SPACE_callback([this](double delta_time){this->eva_control_thrust_up(delta_time);});
     input_handler->set_LSHIFT_callback([this](double delta_time){this->eva_control_thrust_down(delta_time);});
@@ -57,6 +63,7 @@ void PlayerController::eva_control_thrust_down(double delta_time){
     double impulse = -1.0 * player->get_eva_thrust() * delta_time;
     this->player->physics_object.add_impulse(up * impulse);
 }
+
 
 void PlayerController::eva_slew(double delta_time, double cursor_x, double cursor_y){
     // This function is used as a tick callback for eva slewing based upon the current cursor
@@ -103,15 +110,28 @@ void PlayerController::eva_slew(double delta_time, double cursor_x, double curso
         is_actively_slewing = true;
     }
 
+    // determine the strength of the roll torque
+    double z_strength = 0.0;
+    if(glfwGetKey(Window::getInstance()->getGLFWwindow(), GLFW_KEY_Q) == GLFW_PRESS){
+        z_strength += 0.5;
+        is_actively_slewing = true;
+    }
+    if(glfwGetKey(Window::getInstance()->getGLFWwindow(), GLFW_KEY_E) == GLFW_PRESS){
+        z_strength -= 0.5;
+        is_actively_slewing = true;
+    }
+    
     // Determine the magniutde of the thrusing torques to be applied in standardized units (N-m)
     double x_torque_magnitude = player->get_eva_torque() * x_strength;
     double y_torque_magnitude = player->get_eva_torque() * y_strength;
+    double z_torque_magnitude = player->get_eva_torque() * z_strength;
 
     // Get the torques for each axis
-    vec3 yaw_torque = vec3::unit_y * x_torque_magnitude;
-    vec3 pitch_torque = vec3::unit_x * y_torque_magnitude;
+    vec3 yaw_torque    = vec3::unit_y * x_torque_magnitude;
+    vec3 pitch_torque  = vec3::unit_x * y_torque_magnitude;
+    vec3 roll_torque   = vec3::unit_z * z_torque_magnitude;
     // Add the resulting torques from both eva thrusters
-    vec3 torque_body_frame = yaw_torque + pitch_torque;
+    vec3 torque_body_frame = yaw_torque + pitch_torque + roll_torque;
 
     // Add the impulse to the Player's physics object
     this->player->physics_object.add_bodu_frame_torque(torque_body_frame, delta_time);
