@@ -6,17 +6,16 @@
 #include "PhysicsObject.hh"
 #include "HUD.hh"
 #include "SceneObject.hh"
+#include "Scene.hh"
 
 class Player : public SceneObject{
 public:
     Player();
 
-    void tick(double delta_time);
-    void draw();
+    void tick(const double& delta_time, Scene& scene);
+    void render();
     Camera& get_camera();
 private:
-    vec3 position;
-    quaternion rotation;
 
     quaternion look_direction;
     

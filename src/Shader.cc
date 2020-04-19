@@ -5,6 +5,21 @@
 #include <iostream>
 #include "Logger.hh"
 
+
+Shader Shader::star;
+Shader Shader::static_textured;
+Shader Shader::julia;
+Shader Shader::HUD;
+
+void Shader::initialize_shaders(){
+    // TODO read from a config file (build file?)
+
+    star = Shader("star");
+    static_textured = Shader("static_textured");
+    julia = Shader("julia");
+    HUD = Shader("hud");
+}
+
 Shader::Shader(string filename){
 
     Logger::println("Loading shader " + filename);
@@ -43,6 +58,7 @@ Shader::Shader(string filename){
     glCompileShader(fragmentShader);
 
     programID = glCreateProgram();
+    glUseProgram(programID);
 
     glAttachShader(programID, vertexShader);
     glAttachShader(programID, fragmentShader);
@@ -53,6 +69,25 @@ Shader::Shader(string filename){
         glGetProgramInfoLog(programID, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
+
+    glUniform1i(glGetUniformLocation(programID, "texture0"),  0);
+    glUniform1i(glGetUniformLocation(programID, "texture1"),  1);
+    glUniform1i(glGetUniformLocation(programID, "texture2"),  2);
+    glUniform1i(glGetUniformLocation(programID, "texture3"),  3);
+    glUniform1i(glGetUniformLocation(programID, "texture4"),  4);
+    glUniform1i(glGetUniformLocation(programID, "texture5"),  5);
+    glUniform1i(glGetUniformLocation(programID, "texture6"),  6);
+    glUniform1i(glGetUniformLocation(programID, "texture7"),  7);
+    glUniform1i(glGetUniformLocation(programID, "texture8"),  8);
+    glUniform1i(glGetUniformLocation(programID, "texture9"),  9);
+    glUniform1i(glGetUniformLocation(programID, "texture10"), 10);
+    glUniform1i(glGetUniformLocation(programID, "texture11"), 11);
+    glUniform1i(glGetUniformLocation(programID, "texture12"), 12);
+    glUniform1i(glGetUniformLocation(programID, "texture13"), 13);
+    glUniform1i(glGetUniformLocation(programID, "texture14"), 14);
+    glUniform1i(glGetUniformLocation(programID, "texture15"), 15);
+
+    
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader); 
@@ -65,16 +100,17 @@ GLint Shader::getID(){
     return this->programID;
 }
 
-void Shader::setUniformV3(const char* uniform_name, vec3& v){
+void Shader::setUniformV3(const char* uniform_name, const vec3& v){
     this->use();
-    glUniform3d(glGetUniformLocation(programID,uniform_name), v.x, v.y, v.z);
+    auto vf = v.gl_float_ref();
+    glUniform3fv(glGetUniformLocation(programID,uniform_name),1, &vf[0]);
 }
 
 void Shader::setUniform1f(const char* uniform_name, float f){
     this->use();
     glUniform1f(glGetUniformLocation(programID,uniform_name), f);
 }
-void Shader::setUniformMat4(const char* uniform_name, mat4& mat){
+void Shader::setUniformMat4(const char* uniform_name, const mat4& mat){
     this->use();
     std::array<float, 16UL> float_ptr = mat.gl_float_ref();
     glUniformMatrix4fv(glGetUniformLocation(programID,uniform_name), 1, true, &float_ptr[0]);

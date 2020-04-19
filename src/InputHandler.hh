@@ -17,7 +17,7 @@ public:
     static InputHandler* getInstance();
 
     void setWindow(GLFWwindow *window);
-    void processInput(double delta_time);
+    void processInput(const double& delta_time);
 
 
     void set_SCROLL_callback(INPUT_SCROLL_CALLBACK callback){this->SCROLL_callback = callback;}

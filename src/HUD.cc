@@ -4,7 +4,6 @@
 #include "ObjLoad.hh"
 #include <glad/glad.h>
 #include "Logger.hh"
-#include "GLContext.hh"
 
 HUD::HUD(){
 
@@ -42,15 +41,14 @@ HUD::HUD(){
 
     number_of_vertices = sizeof(indices);
 
-    GLContext::getInstance()->getShader("hud")->setUniform1f("x", 0.0);
-    GLContext::getInstance()->getShader("hud")->setUniform1f("y", 0.0);
-
-    GLContext::getInstance()->getShader("hud")->setUniform1f("aspect", 1.0);
+    hud_shader.setUniform1f("x", 0.0);
+    hud_shader.setUniform1f("y", 0.0);
+    hud_shader.setUniform1f("aspect", 1.0);
 
 }
 
-void HUD::draw(){
-    GLContext::getInstance()->getShader("hud")->use();
+void HUD::render(){
+    hud_shader.use();
     glBindVertexArray(VAO);
     glPolygonMode ( GL_FRONT_AND_BACK, GL_FILL ) ;
     glDrawElements(GL_TRIANGLES, number_of_vertices, GL_UNSIGNED_INT, 0);

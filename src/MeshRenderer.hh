@@ -4,16 +4,17 @@
 #include "SceneObject.hh"
 #include "Shader.hh"
 
-class MeshRenderer : public SceneObject
+class MeshRenderer
 {
 public:
-    MeshRenderer(std::string filename, Shader* shader_init);
-    MeshRenderer(std::string filename);
+    MeshRenderer(std::string filename, Shader shader_init);
     MeshRenderer();
 
-    void draw(Shader* shader, );
+    void render(const mat4& model_matrix);
     void set_render_mode(GLenum mode);
+    void set_shader(Shader new_shader);
 private:
+    MeshRenderer(std::string filename);
     unsigned int VBO;
     unsigned int VAO;
     unsigned int EBO;
@@ -22,5 +23,5 @@ private:
 
     GLuint64 render_mode;
 
-    Shader* shader = NULL; 
+    Shader shader; 
 };

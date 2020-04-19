@@ -5,6 +5,7 @@
 #include "Window.hh"
 #include "Config.hh"
 #include "GLContext.hh"
+#include "Logger.hh"
 
 Camera::Camera(){
 	Config::getInstance()->getValue("fovy", this->fovy);
@@ -15,9 +16,11 @@ Camera::Camera(){
 	this->height = Window::getHeight();
 
 	this->aspect = (double)width / (double)height;
-	GLContext::getInstance()->getShader("hud")->setUniform1f("aspect", float(aspect));
 	this->updateProjectionMatrix();
-	this->updateViewMatrix();
+
+
+	// TODO: NEEDS TO BE REMOVED ONCE HUD CLASS IS IMPROVED
+	Shader::HUD.setUniform1f("aspect", float(aspect));
 
 }
 
@@ -26,8 +29,9 @@ void Camera::windowResizeCallback(GLint height, GLint width){
 	this->height = height;
 
 	this->aspect = width/height;
-	GLContext::getInstance()->getShader("hud")->setUniform1f("aspect", float(aspect));
+	Shader::HUD.setUniform1f("aspect", float(aspect));
 	this->updateProjectionMatrix();
+
 }
 void Camera::scrollCallback(GLdouble xoffset, GLdouble yoffset){
 
@@ -45,27 +49,27 @@ void Camera::updateProjectionMatrix() {
 	projection_matrix[3][2] = -1.0;
 	projection_matrix[2][3] = -far_clip*near_clip / (far_clip-near_clip);
 
-	projection_matrix = projection_matrix;
-	this->view_projection_matrix = projection_matrix* view_matrix;
+    Shader::static_textured.setUniformMat4("projection", getProjectionMatrix());
+    Shader::star.setUniformMat4("projection", getProjectionMatrix());
 	
 }
 
-void Camera::updateViewMatrix(){
-	view_matrix = mat4::eye();
-	view_matrix.x.w = -position.x;
-	view_matrix.y.w = -position.y;
-	view_matrix.z.w = -position.z;
-
-	view_matrix = rotation.toMat3().expand().transpose() * view_matrix;
-
-
-	this->view_projection_matrix = projection_matrix* view_matrix;
-}
-
-mat4& Camera::getViewProjectionMatrix(){
-	return this->view_projection_matrix; 
+mat4& Camera::getProjectionMatrix(){
+	return projection_matrix; 
 }
 void Camera::use(){
     Window::getInstance()->set_RESIZE_callback([this](GLint height, GLint width){this->windowResizeCallback(height, width);});
     InputHandler::getInstance()->set_SCROLL_callback([this](GLdouble scroll_x, GLdouble scroll_y){this->scrollCallback(scroll_x, scroll_y);});
+}
+
+void Camera::draw(const double& delta_time, Scene& scene){
+	if(parent_obj){
+		// Pass it itself to signal this is the entry point to the draw tree.
+		parent_obj->draw(-local_position, local_attitude.conj(), delta_time, scene, parent_obj);
+	}
+	else{
+		Logger::println("ERROR:: Attempting to enter the draw tree with an empty parent.");
+		exit(0);
+	}
+	
 }

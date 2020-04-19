@@ -1,15 +1,15 @@
 #include "LandingPad.hh"
-#include "GLContext.hh"
 #include "TextureHandler.hh"
 
-LandingPad::LandingPad(){
-    shader = GLContext::getInstance()->getShader("static_textured");
+LandingPad::LandingPad() : SceneObject(){
+    model_matrix = mat4::eye();
+    shader = Shader::static_textured;
     drawing_mesh = MeshRenderer("data/models/landing_pad.obj", shader);
-    texture = &TextureHandler::getInstance()->ASPHALT_1;
+    texture = TextureHandler::ASPHALT_1;
 }
 
-void LandingPad::draw(){
-    texture->bind();
-    drawing_mesh.draw();
+void LandingPad::render(){
+    texture.bind();
+    drawing_mesh.render(model_matrix);
 }
 

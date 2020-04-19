@@ -2,6 +2,7 @@
 #include "GLContext.hh"
 #include "InputHandler.hh"
 #include "TextureHandler.hh"
+#include "Shader.hh"
 #include "Player.hh"
 #include "Camera.hh"
 #include "Window.hh"
@@ -18,25 +19,22 @@ int main()
     GLContext* context = GLContext::getInstance();
     Window* window = Window::getInstance();
     TextureHandler* texture_handler = TextureHandler::getInstance();
-    context->loadShader("static_textured");
-    context->loadShader("star");
-    context->loadShader("hud");
+    Shader::initialize_shaders();
 
     InputHandler* input_handler = InputHandler::getInstance();
-    Player player = Player();
-
-    MeshRenderer ship = MeshRenderer("data/models/ship.obj", context->getShader("star"));
-    ship.set_render_mode(GL_LINE);
-
-    Star sol = Star();
-
     Scene scene = Scene();
+    Player player = Player();
+    scene.bind_camera(&player.get_camera());
+
+
+
+    Star sol = Star(vec3(-5.0,300.0,-500.0), quaternion());
+
     LandingPad landing_pad = LandingPad();
 
-    scene.add_scene_object(&landing_pad);
-    scene.add_scene_object(&ship);
-    scene.add_scene_object(&player);
-    scene.add_scene_object(&sol);
+
+    sol.bind_to_parent(&landing_pad, false); // TODO try true
+    player.bind_to_parent(&landing_pad, false);
 
 
 
@@ -47,11 +45,8 @@ int main()
         // Get the time since the last frame
         double delta_time = loop_time - old_time;
         old_time = glfwGetTime();
-
         // Process the mouse and keyboard input
         input_handler->processInput(delta_time);
-        // Tick the player forward in time
-        player.tick(delta_time);
         
 
         // rendering commands here
@@ -62,7 +57,7 @@ int main()
 
         glEnable(GL_DEPTH_TEST);  
 
-        scene.render(&player.get_camera());
+        scene.draw(delta_time);
 
         // check and call events and swap the buffers
         glfwPollEvents();

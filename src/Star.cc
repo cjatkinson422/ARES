@@ -1,15 +1,17 @@
 #include "Star.hh"
-#include "GLContext.hh"
+#include "Shader.hh"
 #include "TextureHandler.hh"
 
-Star::Star(){
-    shader = GLContext::getInstance()->getShader("star");
+Star::Star(vec3 pos, quaternion att) : SceneObject(pos,att){
+    shader = Shader::star;
     drawing_mesh = MeshRenderer("data/models/low_res_icosphere.obj", shader);
-    texture = &TextureHandler::getInstance()->ASPHALT_1;
+    light.bind_to_parent(this, false);
 }
 
-void Star::draw(){
-    texture->bind();
-    drawing_mesh.draw();
+void Star::render(){
+    drawing_mesh.render(model_matrix);
 }
 
+void Star::tick(const double& delta_time, Scene& scene){
+    this->light.tick(delta_time, scene);
+}

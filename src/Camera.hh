@@ -4,15 +4,13 @@
 #include <iostream>
 #include <GNClib/linalg.hh>
 #include <GNClib/quaternion.hh>
+#include "SceneObject.hh"
+#include "Scene.hh"
 
+class SceneObject;
 class Camera{
 private:
     Camera();
-
-    quaternion rotation;
-    vec3 position;
-    mat4 view_projection_matrix;
-    mat4 view_matrix;
     mat4 projection_matrix;
 
     double fovy;
@@ -22,16 +20,23 @@ private:
     GLint height;
     GLint width;
 
-
-
+    SceneObject* parent_obj;
 
 public:
+    // Window callbacks
     void windowResizeCallback(GLint width, GLint height);
     void scrollCallback(GLdouble xoffset, GLdouble yoffset);
-    mat4& getViewProjectionMatrix();
-    void updateProjectionMatrix();
-    void updateViewMatrix();
     void use();
+
+    // Drawing matrices
+    mat4& getProjectionMatrix();
+    void updateProjectionMatrix();
+    
+    // state data
+    quaternion local_attitude;
+    vec3 local_position;
+
+    void draw(const double& delta_time, Scene& scene);
 
 protected:
     friend class Player;

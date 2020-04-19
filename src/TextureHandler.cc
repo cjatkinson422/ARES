@@ -1,5 +1,8 @@
 #include "TextureHandler.hh"
 
+Texture TextureHandler::ASPHALT_1;
+
+
 TextureHandler* TextureHandler::instance;
 TextureHandler* TextureHandler::getInstance(){
     // Returns the singleton instance of the TextureHandler class

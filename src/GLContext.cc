@@ -26,11 +26,3 @@ GLContext* GLContext::getInstance(){
     return instance;
 
 }
-
-GLint GLContext::loadShader(string filename){
-    this->shaders[filename] = new Shader(filename);
-    return shaders[filename]->getID();
-}
-Shader* GLContext::getShader(string name){
-    return shaders.at(name);
-}

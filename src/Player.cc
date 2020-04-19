@@ -5,29 +5,22 @@
 
 
 
-Player::Player():player_controller(PlayerController(this)), physics_object(PhysicsObject(position, rotation)){
-    this->position = {5.0,0.0,1.0};
-    this->rotation = {1.0,0.0,0.0,0.0};
-    this->camera.position = this->position;
-    this->camera.rotation = this->rotation;
-    this->camera.updateViewMatrix();
+Player::Player():player_controller(PlayerController(this)), physics_object(PhysicsObject(local_position, local_attitude)){
+    this->local_position = {0.0,2.0,5.0};
+    this->local_attitude = quaternion(vec3(1.0,0.0,0.0), 0.0);
     this->player_controller.use();
 
+    this->camera.parent_obj = this;
+
 }
 
-void Player::tick(double delta_time){
+void Player::tick(const double& delta_time, Scene& scene){
     // Add the change in position since last frame
     this->physics_object.tick(delta_time);
-    this->camera.position = this->position;
-    this->camera.rotation = this->rotation;
-    this->camera.updateViewMatrix();
-
-    GLContext::getInstance()->getShader("static_textured")->setUniformMat4("projection",this->camera.getViewProjectionMatrix());
-    GLContext::getInstance()->getShader("star")->setUniformMat4("projection",this->camera.getViewProjectionMatrix());
 }
 
-void Player::draw(){
-    hud.draw();
+void Player::render(){
+    hud.render();
 }
 
 double Player::get_eva_thrust(){

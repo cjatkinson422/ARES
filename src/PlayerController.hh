@@ -11,19 +11,19 @@ public:
 
     void use();
 
-    void eva_rotational_damp(double delta_time);
-    void eva_translational_damp(double delta_time);
+    void eva_rotational_damp(const double& delta_time);
+    void eva_translational_damp(const double& delta_time);
 private:
     Player* player;
 
     // EVA Thrust control callback functions
-    void eva_control_thrust_forward     (double delta_time);
-    void eva_control_thrust_backward    (double delta_time);
-    void eva_control_thrust_left        (double delta_time);
-    void eva_control_thrust_right       (double delta_time);
-    void eva_control_thrust_up          (double delta_time);
-    void eva_control_thrust_down        (double delta_time);
+    void eva_control_thrust_forward     (const double& delta_time);
+    void eva_control_thrust_backward    (const double& delta_time);
+    void eva_control_thrust_left        (const double& delta_time);
+    void eva_control_thrust_right       (const double& delta_time);
+    void eva_control_thrust_up          (const double& delta_time);
+    void eva_control_thrust_down        (const double& delta_time);
 
-    void eva_slew(double delta_time, double x_strength, double y_strength);
+    void eva_slew(const double& delta_time, double x_strength, double y_strength);
 
 };

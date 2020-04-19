@@ -4,9 +4,7 @@
 
 PhysicsObject::PhysicsObject(vec3& position, quaternion& attitude): position(position), inertial_to_body(attitude){
 
-    this->position = {0.0,0.0,0.0};
     this->velocity = {0.0,0.0,0.0};
-    this->inertial_to_body = {1.0,0.0,0.0,0.0};
     this->angular_velocity_body_frame = {0.0,0.0,0.0};
     this->mass = 100.0;
 
@@ -26,7 +24,7 @@ PhysicsObject::PhysicsObject(vec3& position, quaternion& attitude): position(pos
 }
 
 
-void PhysicsObject::tick(double delta_time){
+void PhysicsObject::tick(const double& delta_time){
     this->position += this->velocity * delta_time;
     this->inertial_to_body.normalize();
 
@@ -49,12 +47,12 @@ void PhysicsObject::add_damping_impulse(double impulse){
     this->velocity -= velocity * impulse;
 }
 
-void PhysicsObject::add_bodu_frame_torque(vec3 torque_body_frame, double delta_time){
+void PhysicsObject::add_body_frame_torque(vec3 torque_body_frame, const double& delta_time){
     vec3 angular_acceleration_body_frame = inertial_matrix_inverse * ( vec3::cross(-angular_velocity_body_frame, inertial_matrix * angular_velocity_body_frame) + torque_body_frame);
     this->angular_velocity_body_frame += angular_acceleration_body_frame * delta_time;
 }
 
-void PhysicsObject::add_body_frame_damping_torque(double torque_magnitude, double delta_time){
+void PhysicsObject::add_body_frame_damping_torque(double torque_magnitude, const double& delta_time){
     vec3 torque = -vec3::normalize(angular_velocity_body_frame) * torque_magnitude;
     vec3 angular_acceleration_body_frame = inertial_matrix_inverse * ( vec3::cross(-angular_velocity_body_frame, inertial_matrix * angular_velocity_body_frame) + torque);
     this->angular_velocity_body_frame += angular_acceleration_body_frame * delta_time;

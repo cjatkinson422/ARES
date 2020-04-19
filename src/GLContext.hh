@@ -15,7 +15,5 @@ private:
     std::map<string, Shader*> shaders;
 public:
     static GLContext* getInstance();
-    GLint loadShader(string filename);
-    Shader* getShader(string name);
 };
 

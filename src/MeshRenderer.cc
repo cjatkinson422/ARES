@@ -51,13 +51,14 @@ MeshRenderer::MeshRenderer(string filename){
 
     this->set_render_mode(GL_FILL);
 }
-MeshRenderer::MeshRenderer(std::string filename, Shader* shader_init) : MeshRenderer::MeshRenderer(filename){
+MeshRenderer::MeshRenderer(std::string filename, Shader shader_init) : 
+        MeshRenderer::MeshRenderer(filename){
     this->shader = shader_init;
 }
 
-void MeshRenderer::draw(Shader* shader, mat4* model_matrix){
-    shader->use();
-    shader->setUniformMat4("model_matrix", *model_matrix);
+void MeshRenderer::render(const mat4& model_matrix){
+    shader.use();
+    shader.setUniformMat4("model_matrix", model_matrix);
     glBindVertexArray(VAO);
     glPolygonMode ( GL_FRONT_AND_BACK, render_mode ) ;
     glDrawElements(GL_TRIANGLES, number_of_vertices, GL_UNSIGNED_INT, 0);
@@ -65,4 +66,8 @@ void MeshRenderer::draw(Shader* shader, mat4* model_matrix){
 
 void MeshRenderer::set_render_mode(GLenum mode){
     this->render_mode = mode;
+}
+
+void MeshRenderer::set_shader(Shader new_shader){
+    shader = new_shader;
 }

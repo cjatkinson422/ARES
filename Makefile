@@ -31,7 +31,7 @@ endif
 CPPFLAGS = -g --std=c++2a -I$(IDIR) -I./
 CFLAGS = -g -I$(IDIR) 
 
-default: executable
+default: main
 
 $(ODIR)/nanovg/%.oc: ./third_party/nanovg/src/%.c
 	gcc $(CFLAGS) -c $< -o $@
@@ -68,7 +68,13 @@ libraries:
 	make -C third_party/glfw/build/
 	cp third_party/glfw/build/src/libglfw3.a libs/libglfw3.a
 
+proprietary:
+	make -C ./third_party/GNClib/
+	cp ./third_party/GNClib/liblinalg.a libs/
+	cp ./third_party/GNClib/*.hh includes/GNClib/
 
+
+main: proprietary executable
 
 install: setup libraries
 

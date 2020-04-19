@@ -5,6 +5,6 @@ uniform float x;
 uniform float y;
 void main()
 {
-   gl_Position = vec4((x + aPos.x)/aspect, y + aPos.y, aPos.z, 1.0);
+   gl_Position = vec4((x + aPos.x)/aspect, (y + aPos.y), aPos.z, 1.0);
 
 };

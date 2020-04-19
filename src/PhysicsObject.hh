@@ -9,11 +9,11 @@ class PhysicsObject{
 public:
     PhysicsObject(vec3& position, quaternion& attitude);
 
-    void tick(double delta_time);
+    void tick(const double& delta_time);
     void add_impulse(vec3 impulse);
     void add_damping_impulse(double impulse);
-    void add_bodu_frame_torque(vec3 torque_body_frame, double delta_time);
-    void add_body_frame_damping_torque(double torque_magnitude, double delta_time);
+    void add_body_frame_torque(vec3 torque_body_frame, const double& delta_time);
+    void add_body_frame_damping_torque(double torque_magnitude, const double& delta_time);
     double get_mass();
 private:
     vec3& position;

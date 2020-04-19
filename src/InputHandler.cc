@@ -17,8 +17,8 @@ InputHandler::InputHandler(){
 
     GLdouble x,y;
     glfwGetCursorPos(Window::getGLFWwindow(), &x,&y);
-    cursor_x = x - Window::getWidth();
-    cursor_y = y - Window::getHeight();
+    cursor_x = x - Window::getWidth()/2;
+    cursor_y = y - Window::getHeight()/2;
 
     glfwSetScrollCallback(Window::getGLFWwindow(), InputHandler::GLFWScrollCallback);
     //glfwSetCursorPos(Window::getGLFWwindow(),cursor_x,cursor_y);
@@ -46,10 +46,9 @@ void InputHandler::GLFWCursorCallback(GLFWwindow* window, GLdouble x_position, G
 }
 
 
-void InputHandler::processInput(double delta_time)
+void InputHandler::processInput(const double& delta_time)
 {
     if(CURSOR_TICK_callback)CURSOR_TICK_callback(delta_time, cursor_x, cursor_y);
-
 
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS && (ESC_callback)) ESC_callback(delta_time);
     if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && (SPACE_callback)) SPACE_callback(delta_time);

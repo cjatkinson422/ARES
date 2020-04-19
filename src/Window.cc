@@ -37,7 +37,7 @@ Window::Window(){
     // Tell the input handler to use input from this glfw window.
     InputHandler::getInstance()->setWindow(glfw_window);
     glfwSetFramebufferSizeCallback(Window::getGLFWwindow(), Window::GLFWFramebufferResizeCallback);
-
+    glfwSetCursorPos(Window::glfw_window, Window::width/2.0 + 30, Window::height/2.0);
 }
 
 Window* Window::getInstance(){

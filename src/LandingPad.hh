@@ -7,14 +7,14 @@
 class LandingPad : public SceneObject{
 public:
     LandingPad();
-    void draw();
+    void render();
 private:
 
     MeshRenderer drawing_mesh;
     //Mesh collision_mesh;
 
-    Texture* texture = NULL;
-    Shader* shader = NULL;
+    Texture texture;
+    Shader shader;
 
 
 };

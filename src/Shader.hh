@@ -9,12 +9,22 @@ using std::string;
 class Shader{
 private:
     GLuint programID;
-public:
     Shader(string filename);
-    void use();
-    GLint getID();
+public:
+    Shader(){programID = 0;}
 
-    void setUniformV3(const char* uniform_name, vec3& v);
+    // TODO create a static class that is a friend to things that need initializing
+    static void initialize_shaders();
+    GLint getID();
+    void use();
+
+    void setUniformV3(const char* uniform_name, const vec3& v);
     void setUniform1f(const char* uniform_name, float f);
-    void setUniformMat4(const char* uniform_name, mat4& mat);
+    void setUniformMat4(const char* uniform_name, const mat4& mat);
+
+    static Shader star;
+    static Shader static_textured;
+    static Shader julia;
+    static Shader HUD;
+
 };

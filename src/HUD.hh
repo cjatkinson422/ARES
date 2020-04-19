@@ -1,12 +1,13 @@
 #pragma once
 #include <iostream>
 #include "SceneObject.hh"
+#include "Shader.hh"
 
 class HUD : public SceneObject{
 public:
     HUD();
 
-    void draw();
+    void render();
 private:
 
     unsigned int VBO;
@@ -15,4 +16,5 @@ private:
 
     size_t number_of_vertices;
 
+    Shader hud_shader = Shader::HUD;
 };
