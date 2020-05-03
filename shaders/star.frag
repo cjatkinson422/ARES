@@ -1,11 +1,12 @@
 #version 430 core
 in vec3 fPos;
-in vec3 fNorm;
+in mat3 fNTB;
 in vec2 fTex;
 
-uniform sampler2D diffuse_texture;
-uniform sampler2D normal_texture;
-uniform sampler2D roughness_texture;
+uniform sampler2D texture0; // Diffuse
+uniform sampler2D texture1; // Normal
+uniform sampler2D texture2; // Specular
+uniform sampler2D texture3; 
 
 out vec4 FragColor;
 

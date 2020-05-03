@@ -3,8 +3,8 @@
 
 class quaternion{
 public:
-    vec3 v;
     double s = 1.0;
+    vec3 v;
 
 
     // Default constructor 
@@ -44,7 +44,7 @@ public:
 };
 
 quaternion operator*(const quaternion& q1, const quaternion& q2);
-quaternion operator*(const mat4&,const quaternion&);
+//quaternion operator*(const mat4&,const quaternion&);
 quaternion operator* (const double&,const quaternion&);
 quaternion operator* (const quaternion&,const double&);
 

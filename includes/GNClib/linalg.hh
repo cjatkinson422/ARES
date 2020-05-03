@@ -36,7 +36,7 @@ public:
     friend vec3 operator-(const vec3&);
     // Normalizes this vector.
     void normalize();
-    static vec3 normalize(vec3&);
+    static vec3 normalize(const vec3&);
     // Returns the current length of the vector.
     double length();
     // Crosses two vec3's and returns a new vec3 with the result
@@ -47,6 +47,9 @@ public:
     // Expands the vector from a vec3 to a vec4 placing the
     // parameter passed in the 4th (w) spot in the vec4
     vec4 expand(double w = 0);
+
+    // get an array of floats representing the data
+    std::array<float,3> gl_float_ref() const;
 
     // Prints the contents of the vector
     void print();
@@ -220,7 +223,7 @@ public:
     **************************************************/
     mat4 transpose();
 
-    std::array<float,16> gl_float_ref();
+    std::array<float,16> gl_float_ref() const;
 
     void print();
 
@@ -242,7 +245,6 @@ mat4 operator*(const mat4&,const mat4&);
 vec4 operator*(const mat4&,const vec4&);
 mat4 operator-(const mat4&,const mat4&);
 mat4 operator+(const mat4&,const mat4&);
-double* operator&(mat4&);
 
 
 

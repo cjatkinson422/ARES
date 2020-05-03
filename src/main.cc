@@ -1,17 +1,17 @@
 #include <iostream>
-#include "GLContext.hh"
-#include "InputHandler.hh"
-#include "TextureHandler.hh"
-#include "Shader.hh"
-#include "Player.hh"
-#include "Camera.hh"
-#include "Window.hh"
+#include "engine/GLContext.hh"
+#include "engine/InputHandler.hh"
+#include "engine/TextureHandler.hh"
+#include "engine/Shader.hh"
+#include "objects/Player.hh"
+#include "objects/Camera.hh"
+#include "engine/Window.hh"
 #include <functional>
 #include <algorithm>
 
-#include "LandingPad.hh"
-#include "Scene.hh"
-#include "Star.hh"
+#include "usr/LandingPad.hh"
+#include "engine/Scene.hh"
+#include "usr/Star.hh"
 
 
 int main()

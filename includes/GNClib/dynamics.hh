@@ -1,3 +1,4 @@
+#pragma once
 #include "linalg.hh"
 
 namespace GNC{

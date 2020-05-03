@@ -1,5 +1,7 @@
 #Makefile to test the program
 
+rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
+
 IDIR = ./includes
 ODIR = ./objs
 SDIR = ./src
@@ -7,9 +9,9 @@ LDIR = ./libs
 
 EXE := mainApp
 
-SRC := $(wildcard $(SDIR)/*.cc)
+SRC := $(call rwildcard, $(SDIR), *.cc)
 OBJ := $(SRC:$(SDIR)/%.cc=$(ODIR)/%.o) 
-SRC := $(wildcard $(SDIR)/*.c) 
+SRC := $(call rwildcard, $(SDIR), *.c)
 OBJ := $(OBJ) $(SRC:$(SDIR)/%.c=$(ODIR)/%.oc)
 LIB := $(wildcard $(LDIR)/*.a)
 
@@ -28,7 +30,7 @@ ifeq ($(UNAME), Darwin)
 LDLIBS = -lbz2 -lz -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
 endif
 
-CPPFLAGS = -g --std=c++2a -I$(IDIR) -I./
+CPPFLAGS = -g --std=c++2a -I$(IDIR) -I./ -I./src/
 CFLAGS = -g -I$(IDIR) 
 
 default: main
@@ -39,8 +41,11 @@ $(ODIR)/nanovg/%.oc: ./third_party/nanovg/src/%.c
 $(ODIR)/%.oc: $(SDIR)/%.c
 	gcc $(CFLAGS) -c $< -o $@
 
-$(ODIR)/%.o: $(SDIR)/%.cc $(SDIR)/*.hh
+$(ODIR)/%.o: $(SDIR)/%.cc $(call rwildcard, $(SDIR), *.hh) | $(ODIR)
 	g++ $(CPPFLAGS) -c $< -o $@
+
+$(ODIR):
+	mkdir -p $@
 
 $(EXE): $(OBJ) $(IMGUI_OBJS)
 	g++ $(LDFLAGS) $(CPPFLAGS) $^ $(LIB) $(LDLIBS) -o $@
@@ -73,6 +78,8 @@ proprietary:
 	cp ./third_party/GNClib/liblinalg.a libs/
 	cp ./third_party/GNClib/*.hh includes/GNClib/
 
+	echo $(OBJ)
+
 
 main: proprietary executable
 
@@ -81,7 +88,7 @@ install: setup libraries
 
 
 clean:
-	rm $(OBJ) || true
+	#rm $(OBJ) || true
 	rm $(EXE) || true
 
 apocalypse:

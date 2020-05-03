@@ -1,10 +1,9 @@
 #version 430 core
-out vec3 FragColor;
+out vec4 FragColor;
 
-const float gold = 1.61803398875;
-const float ci = gold-1.0f;
-const float cr = gold-2.0f;
-const float scale = 1.0;
+uniform sampler2D texture0; // color
+
+in vec2 fTex;
 
 const vec3 colors[8] = {
     vec3(011.0f, 112.0f, 104.0f)/256.0f,
@@ -37,9 +36,8 @@ vec3 interpColor(float fac){
     }
 }
 
-
-
 void main()
-{
-    FragColor = vec3(0.5,0.5,0.6);
+{   
+    FragColor = texture(texture0, 0.3333*fTex+0.3333);
+    FragColor.rgb += vec3(1.0);
 }
