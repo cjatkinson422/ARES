@@ -42,7 +42,7 @@ HUD::HUD(){
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3*sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    number_of_vertices = sizeof(indices);
+    number_of_vertices = sizeof(indices) / sizeof(unsigned int);
 
     hud_shader.setUniform1f("x", 0.0);
     hud_shader.setUniform1f("y", 0.0);
@@ -54,8 +54,9 @@ void HUD::render(){
     //Logger::println("drawing hud");
     hud_texture.bind();
     hud_shader.use();
+    glDepthMask(GL_FALSE);  
     glBindVertexArray(VAO);
     glPolygonMode ( GL_FRONT_AND_BACK, GL_FILL ) ;
-    
     glDrawElements(GL_TRIANGLES, number_of_vertices, GL_UNSIGNED_INT, 0);
+    glDepthMask(GL_TRUE);  
 }

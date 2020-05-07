@@ -9,6 +9,7 @@
 Shader Shader::star;
 Shader Shader::static_textured;
 Shader Shader::HUD;
+Shader Shader::solid_color;
 
 void Shader::initialize_shaders(){
     // TODO read from a config file (build file?)
@@ -16,6 +17,7 @@ void Shader::initialize_shaders(){
     star = Shader("star");
     static_textured = Shader("static_textured");
     HUD = Shader("hud");
+    solid_color = Shader("solid_color");
 }
 
 Shader::Shader(string filename){

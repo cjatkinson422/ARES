@@ -25,5 +25,6 @@ public:
     static Shader star;
     static Shader static_textured;
     static Shader HUD;
+    static Shader solid_color;
 
 };

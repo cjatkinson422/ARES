@@ -50,6 +50,7 @@ void Camera::updateProjectionMatrix() {
 
     Shader::static_textured.setUniformMat4("projection", getProjectionMatrix());
     Shader::star.setUniformMat4("projection", getProjectionMatrix());
+    Shader::solid_color.setUniformMat4("projection", getProjectionMatrix());
 	
 }
 

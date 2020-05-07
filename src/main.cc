@@ -12,6 +12,7 @@
 #include "usr/LandingPad.hh"
 #include "engine/Scene.hh"
 #include "usr/Star.hh"
+#include "usr/Planet.hh"
 
 
 int main()
@@ -28,16 +29,16 @@ int main()
 
 
 
-    Star sol = Star(vec3(-5.0,300.0,-500.0), quaternion());
-
+    Star sol = Star(vec3(-5.0,30.0,-50.0), quaternion());
     LandingPad landing_pad = LandingPad();
-
-
+    Planet earth = Planet();
+    
+    earth.bind_to_parent(&landing_pad, false);
     sol.bind_to_parent(&landing_pad, false); // TODO try true
     player.bind_to_parent(&landing_pad, false);
 
 
-
+    Logger::println("Entering main loop.");
     double loop_time = glfwGetTime();
     double old_time = glfwGetTime();
     while(!window->shouldClose())

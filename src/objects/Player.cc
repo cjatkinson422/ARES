@@ -6,7 +6,7 @@
 
 
 Player::Player():player_controller(PlayerController(this)), physics_object(PhysicsObject(local_position, local_attitude)){
-    this->local_position = {0.0,2.0,5.0};
+    this->local_position = {0.0,5.0,5.0};
     this->local_attitude = quaternion(vec3(1.0,0.0,0.0), 0.0);
     this->player_controller.use();
 
