@@ -9,7 +9,7 @@
 	url = https://github.com/memononen/nanosvg.git
 [submodule "third_party/GNClib"]
 	path = third_party/GNClib
-	url = git@github.com:cjatkinson422/GNClib.git
+	url = https://github.com/cjatkinson422/GNClib.git
 [submodule "third_party/nanovg"]
 	path = third_party/nanovg
 	url = https://github.com/memononen/nanovg.git

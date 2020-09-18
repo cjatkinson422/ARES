@@ -31,7 +31,7 @@ int main()
 
     Star sol = Star(vec3(-5.0,30.0,-50.0), quaternion());
     LandingPad landing_pad = LandingPad();
-    Planet earth = Planet();
+    Planet earth = Planet(10.0);
     
     earth.bind_to_parent(&landing_pad, false);
     sol.bind_to_parent(&landing_pad, false); // TODO try true

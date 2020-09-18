@@ -13,7 +13,7 @@ InputHandler::InputHandler(){
      * Designed to handle keyboard and mouse input 
     */
 
-    glfwSetInputMode(Window::getGLFWwindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED); 
+    //glfwSetInputMode(Window::getGLFWwindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED); 
 
     GLdouble x,y;
     glfwGetCursorPos(Window::getGLFWwindow(), &x,&y);
